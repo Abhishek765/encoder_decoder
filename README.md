@@ -20,7 +20,7 @@ npm i
  ```
 ***4.*** To run the server-
 ```
-npm server.js or nodemon server.js
+node server.js or nodemon server.js
 ```
 ***5.*** To run the client-
 ```
