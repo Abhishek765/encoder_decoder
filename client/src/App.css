@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.region_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+}
+.region_style {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+input {
+  margin: 10px 0;
+  padding: 20px;
+  outline: none;
+  border: 1px solid rgb(119, 117, 117);
+  border-radius: 50px;
+  font-size: 10px;
+}
+button {
+  padding: 10px;
+  background-color: rgb(21, 182, 112);
+  color: #fff;  
+  border: 1px solid rgb(136, 226, 187);
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+button:hover {
+  transform: scale(1.1);
+}
