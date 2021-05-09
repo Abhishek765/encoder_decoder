@@ -154,8 +154,6 @@ router.post('/restore', (req, res) => {
     </div>
 ```
 
-[Live Demo Link](https://www.youtube.com/watch?v=iJW0KMNjN60)
-
 
 # Screenshots and Different testcases:
 
