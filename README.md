@@ -55,10 +55,20 @@ const encodeStr = (longStr) => {
   which contains  alphanumeric characters.  
 
 ```js
+let lastRand, randNum;
+// For generating random number using date 
+function rand() {
+    while (randNum == lastRand)
+        randNum = (new Date().getTime() * 3.141592) % 1;
+
+    return lastRand = randNum;
+}
+
+// To get the random string of length len
 const generateRandomStr = (len, chars) => {
     let result = '';
     for (let i = len; i > 0; --i)
-        result += chars[Math.floor(Math.random() * chars.length)];
+        result += chars[(rand() * chars.length) >>> 0];
     return result;
 }
 ```
