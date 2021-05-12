@@ -13,7 +13,6 @@ const App = () => {
   const [originalStr, setOriginalStr] = useState("");
   const [encodedStr, setEncodedStr] = useState("");
 
-
   const handleOriginal = (event) => {
 
     let name = event.target.name;
@@ -28,6 +27,23 @@ const App = () => {
     setCodedString({ ...coded_string, [name]: value });
 
   }
+  // For setting the Key,value in localstorage
+  const setLocaleStorage = async (newEncode, newOriginal) => {
+
+    let obj = JSON.parse(localStorage.getItem('user-info')) || {};
+    let newObj = { ...obj, [newEncode]: newOriginal };
+
+    console.log(`user : ${JSON.stringify(newObj)}`);
+    if (newObj) {
+      localStorage.setItem("user-info", JSON.stringify(newObj));
+    }
+  }
+
+  // Getter method to get the values of a particular code
+  const getFromLocaleStorage = (code) => {
+    return JSON.parse(localStorage.getItem(code));
+  }
+
 
   // For Encoding
   const postOriginal = async (event) => {
@@ -49,18 +65,23 @@ const App = () => {
       })
     });
 
-    const data = await res.json();
-
-    if (data.res === 422 || !data) {
-      window.alert("Something Went Wrong!!!");
-      console.log("Something Went Wrong!!!");
+    if (res.status === 422 || res.status === 500) {
+      alert("Something Went Wrong!!!")
     }
     else {
-      let { encode } = data;
-      console.log(`data: ${encode}`);
-      setEncodedStr(encode);
-    }
+      const data = await res.json();
 
+      if (data.res === 422 || data.res === 500 || !data) {
+        window.alert("Something Went Wrong!!!");
+        console.log("Something Went Wrong!!!");
+      }
+      else {
+        let { encode } = data;
+        console.log(`data: ${encode}`);
+        setLocaleStorage(encode, original);
+        setEncodedStr(encode);
+      }
+    }
 
   }
 
@@ -73,27 +94,38 @@ const App = () => {
       window.alert("Please Fill the entry");
       return;
     }
+    // Getting the object from localstorage
+    let newUser = getFromLocaleStorage("user-info");
 
-    const res = await fetch("/restore", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        encode
-      })
-    });
-
-    const data = await res.json();
-
-    if (data.res === 422 || !data) {
-      window.alert("Something Went Wrong!!!");
-      console.log("Something Went Wrong!!!");
+    // If key exists
+    if (encode in newUser) {
+      let originalStr = newUser[encode];
+      console.log(`Key data: ${originalStr}`);
+      setOriginalStr(originalStr);
     }
     else {
-      let { original } = data;
-      console.log(`data: ${original}`);
-      setOriginalStr(original);
+      window.alert("Code is Invalid")
+      // const res = await fetch("/restore", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     encode
+      //   })
+      // });
+
+      // const data = await res.json();
+
+      // if (data.res === 422 || !data) {
+      //   window.alert("Something Went Wrong!!!");
+      //   console.log("Something Went Wrong!!!");
+      // }
+      // else {
+      //   let { original } = data;
+      //   console.log(`data: ${original}`);
+      //   setOriginalStr(original);
+      // }
     }
   }
 
@@ -133,4 +165,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
