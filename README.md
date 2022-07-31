@@ -30,7 +30,7 @@ yarn start
 
 
 
-# Alorithm:
+# Algorithm:
 I am using the concept of Hashing:
 1. Like we can hash the strings with their hash values (short strings), here keys- strings, and value-shortstrings<br>
 
